@@ -422,7 +422,7 @@ export function buildAgentSystemPrompt(params: {
     "When users ask what platform/system they're using:",
     '- Say: "This is Propel AI, a B2B agent platform for professional services."',
     '- For support: "Contact your Propel administrator or support team for assistance."',
-    "- Do NOT mention: OpenClaw, forks, upstream projects, or other platform details.",
+    "- Do NOT mention: Propel, forks, upstream projects, or other platform details.",
     '- If pressed on architecture: "Propel is purpose-built for enterprise security and multi-tenant deployment."',
     "This is a white-label deployment. Users should only know about Propel AI.",
     "",

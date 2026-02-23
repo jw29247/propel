@@ -4,9 +4,9 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 COMPOSE_FILE="$ROOT_DIR/docker-compose.yml"
 EXTRA_COMPOSE_FILE="$ROOT_DIR/docker-compose.extra.yml"
-IMAGE_NAME="${OPENCLAW_IMAGE:-propel:local}"
-EXTRA_MOUNTS="${OPENCLAW_EXTRA_MOUNTS:-}"
-HOME_VOLUME_NAME="${OPENCLAW_HOME_VOLUME:-}"
+IMAGE_NAME="${PROPEL_IMAGE:-propel:local}"
+EXTRA_MOUNTS="${PROPEL_EXTRA_MOUNTS:-}"
+HOME_VOLUME_NAME="${PROPEL_HOME_VOLUME:-}"
 
 fail() {
   echo "ERROR: $*" >&2
@@ -42,14 +42,14 @@ validate_mount_path_value() {
 validate_named_volume() {
   local value="$1"
   if [[ ! "$value" =~ ^[A-Za-z0-9][A-Za-z0-9_.-]*$ ]]; then
-    fail "OPENCLAW_HOME_VOLUME must match [A-Za-z0-9][A-Za-z0-9_.-]* when using a named volume."
+    fail "PROPEL_HOME_VOLUME must match [A-Za-z0-9][A-Za-z0-9_.-]* when using a named volume."
   fi
 }
 
 validate_mount_spec() {
   local mount="$1"
   if contains_disallowed_chars "$mount"; then
-    fail "OPENCLAW_EXTRA_MOUNTS entries cannot contain control characters."
+    fail "PROPEL_EXTRA_MOUNTS entries cannot contain control characters."
   fi
   # Keep mount specs strict to avoid YAML structure injection.
   # Expected format: source:target[:options]
@@ -64,50 +64,50 @@ if ! docker compose version >/dev/null 2>&1; then
   exit 1
 fi
 
-OPENCLAW_CONFIG_DIR="${OPENCLAW_CONFIG_DIR:-$HOME/.propel}"
-OPENCLAW_WORKSPACE_DIR="${OPENCLAW_WORKSPACE_DIR:-$HOME/.propel/workspace}"
+PROPEL_CONFIG_DIR="${PROPEL_CONFIG_DIR:-$HOME/.propel}"
+PROPEL_WORKSPACE_DIR="${PROPEL_WORKSPACE_DIR:-$HOME/.propel/workspace}"
 
-validate_mount_path_value "OPENCLAW_CONFIG_DIR" "$OPENCLAW_CONFIG_DIR"
-validate_mount_path_value "OPENCLAW_WORKSPACE_DIR" "$OPENCLAW_WORKSPACE_DIR"
+validate_mount_path_value "PROPEL_CONFIG_DIR" "$PROPEL_CONFIG_DIR"
+validate_mount_path_value "PROPEL_WORKSPACE_DIR" "$PROPEL_WORKSPACE_DIR"
 if [[ -n "$HOME_VOLUME_NAME" ]]; then
   if [[ "$HOME_VOLUME_NAME" == *"/"* ]]; then
-    validate_mount_path_value "OPENCLAW_HOME_VOLUME" "$HOME_VOLUME_NAME"
+    validate_mount_path_value "PROPEL_HOME_VOLUME" "$HOME_VOLUME_NAME"
   else
     validate_named_volume "$HOME_VOLUME_NAME"
   fi
 fi
 if contains_disallowed_chars "$EXTRA_MOUNTS"; then
-  fail "OPENCLAW_EXTRA_MOUNTS cannot contain control characters."
+  fail "PROPEL_EXTRA_MOUNTS cannot contain control characters."
 fi
 
-mkdir -p "$OPENCLAW_CONFIG_DIR"
-mkdir -p "$OPENCLAW_WORKSPACE_DIR"
+mkdir -p "$PROPEL_CONFIG_DIR"
+mkdir -p "$PROPEL_WORKSPACE_DIR"
 # Seed device-identity parent eagerly for Docker Desktop/Windows bind mounts
 # that reject creating new subdirectories from inside the container.
-mkdir -p "$OPENCLAW_CONFIG_DIR/identity"
+mkdir -p "$PROPEL_CONFIG_DIR/identity"
 
-export OPENCLAW_CONFIG_DIR
-export OPENCLAW_WORKSPACE_DIR
-export OPENCLAW_GATEWAY_PORT="${OPENCLAW_GATEWAY_PORT:-18789}"
-export OPENCLAW_BRIDGE_PORT="${OPENCLAW_BRIDGE_PORT:-18790}"
-export OPENCLAW_GATEWAY_BIND="${OPENCLAW_GATEWAY_BIND:-lan}"
-export OPENCLAW_IMAGE="$IMAGE_NAME"
-export OPENCLAW_DOCKER_APT_PACKAGES="${OPENCLAW_DOCKER_APT_PACKAGES:-}"
-export OPENCLAW_EXTRA_MOUNTS="$EXTRA_MOUNTS"
-export OPENCLAW_HOME_VOLUME="$HOME_VOLUME_NAME"
+export PROPEL_CONFIG_DIR
+export PROPEL_WORKSPACE_DIR
+export PROPEL_GATEWAY_PORT="${PROPEL_GATEWAY_PORT:-18789}"
+export PROPEL_BRIDGE_PORT="${PROPEL_BRIDGE_PORT:-18790}"
+export PROPEL_GATEWAY_BIND="${PROPEL_GATEWAY_BIND:-lan}"
+export PROPEL_IMAGE="$IMAGE_NAME"
+export PROPEL_DOCKER_APT_PACKAGES="${PROPEL_DOCKER_APT_PACKAGES:-}"
+export PROPEL_EXTRA_MOUNTS="$EXTRA_MOUNTS"
+export PROPEL_HOME_VOLUME="$HOME_VOLUME_NAME"
 
-if [[ -z "${OPENCLAW_GATEWAY_TOKEN:-}" ]]; then
+if [[ -z "${PROPEL_GATEWAY_TOKEN:-}" ]]; then
   if command -v openssl >/dev/null 2>&1; then
-    OPENCLAW_GATEWAY_TOKEN="$(openssl rand -hex 32)"
+    PROPEL_GATEWAY_TOKEN="$(openssl rand -hex 32)"
   else
-    OPENCLAW_GATEWAY_TOKEN="$(python3 - <<'PY'
+    PROPEL_GATEWAY_TOKEN="$(python3 - <<'PY'
 import secrets
 print(secrets.token_hex(32))
 PY
 )"
   fi
 fi
-export OPENCLAW_GATEWAY_TOKEN
+export PROPEL_GATEWAY_TOKEN
 
 COMPOSE_FILES=("$COMPOSE_FILE")
 COMPOSE_ARGS=()
@@ -128,8 +128,8 @@ YAML
 
   if [[ -n "$home_volume" ]]; then
     gateway_home_mount="${home_volume}:/home/node"
-    gateway_config_mount="${OPENCLAW_CONFIG_DIR}:/home/node/.propel"
-    gateway_workspace_mount="${OPENCLAW_WORKSPACE_DIR}:/home/node/.propel/workspace"
+    gateway_config_mount="${PROPEL_CONFIG_DIR}:/home/node/.propel"
+    gateway_workspace_mount="${PROPEL_WORKSPACE_DIR}:/home/node/.propel/workspace"
     validate_mount_spec "$gateway_home_mount"
     validate_mount_spec "$gateway_config_mount"
     validate_mount_spec "$gateway_workspace_mount"
@@ -236,20 +236,20 @@ upsert_env() {
 }
 
 upsert_env "$ENV_FILE" \
-  OPENCLAW_CONFIG_DIR \
-  OPENCLAW_WORKSPACE_DIR \
-  OPENCLAW_GATEWAY_PORT \
-  OPENCLAW_BRIDGE_PORT \
-  OPENCLAW_GATEWAY_BIND \
-  OPENCLAW_GATEWAY_TOKEN \
-  OPENCLAW_IMAGE \
-  OPENCLAW_EXTRA_MOUNTS \
-  OPENCLAW_HOME_VOLUME \
-  OPENCLAW_DOCKER_APT_PACKAGES
+  PROPEL_CONFIG_DIR \
+  PROPEL_WORKSPACE_DIR \
+  PROPEL_GATEWAY_PORT \
+  PROPEL_BRIDGE_PORT \
+  PROPEL_GATEWAY_BIND \
+  PROPEL_GATEWAY_TOKEN \
+  PROPEL_IMAGE \
+  PROPEL_EXTRA_MOUNTS \
+  PROPEL_HOME_VOLUME \
+  PROPEL_DOCKER_APT_PACKAGES
 
 echo "==> Building Docker image: $IMAGE_NAME"
 docker build \
-  --build-arg "OPENCLAW_DOCKER_APT_PACKAGES=${OPENCLAW_DOCKER_APT_PACKAGES}" \
+  --build-arg "PROPEL_DOCKER_APT_PACKAGES=${PROPEL_DOCKER_APT_PACKAGES}" \
   -t "$IMAGE_NAME" \
   -f "$ROOT_DIR/Dockerfile" \
   "$ROOT_DIR"
@@ -259,7 +259,7 @@ echo "==> Onboarding (interactive)"
 echo "When prompted:"
 echo "  - Gateway bind: lan"
 echo "  - Gateway auth: token"
-echo "  - Gateway token: $OPENCLAW_GATEWAY_TOKEN"
+echo "  - Gateway token: $PROPEL_GATEWAY_TOKEN"
 echo "  - Tailscale exposure: Off"
 echo "  - Install Gateway daemon: No"
 echo ""
@@ -282,10 +282,10 @@ docker compose "${COMPOSE_ARGS[@]}" up -d propel-gateway
 echo ""
 echo "Gateway running with host port mapping."
 echo "Access from tailnet devices via the host's tailnet IP."
-echo "Config: $OPENCLAW_CONFIG_DIR"
-echo "Workspace: $OPENCLAW_WORKSPACE_DIR"
-echo "Token: $OPENCLAW_GATEWAY_TOKEN"
+echo "Config: $PROPEL_CONFIG_DIR"
+echo "Workspace: $PROPEL_WORKSPACE_DIR"
+echo "Token: $PROPEL_GATEWAY_TOKEN"
 echo ""
 echo "Commands:"
 echo "  ${COMPOSE_HINT} logs -f propel-gateway"
-echo "  ${COMPOSE_HINT} exec propel-gateway node dist/index.js health --token \"$OPENCLAW_GATEWAY_TOKEN\""
+echo "  ${COMPOSE_HINT} exec propel-gateway node dist/index.js health --token \"$PROPEL_GATEWAY_TOKEN\""

@@ -5,7 +5,7 @@
 # One-tap: shows status toast
 # If expired: directly opens auth URL
 
-SERVER="${OPENCLAW_SERVER:-${CLAWDBOT_SERVER:-l36}}"
+SERVER="${PROPEL_SERVER:-${CLAWDBOT_SERVER:-l36}}"
 
 STATUS=$(ssh -o ConnectTimeout=5 "$SERVER" '$HOME/propel/scripts/claude-auth-status.sh simple' 2>&1)
 
@@ -22,7 +22,7 @@ case "$STATUS" in
         termux-toast "Auth expired - opening console..."
         termux-open-url "https://console.anthropic.com/settings/api-keys"
         sleep 2
-        termux-notification -t "OpenClaw Re-Auth" -c "After getting key, run: ssh $SERVER '~/propel/scripts/mobile-reauth.sh'" --id propel-auth
+        termux-notification -t "Propel Re-Auth" -c "After getting key, run: ssh $SERVER '~/propel/scripts/mobile-reauth.sh'" --id propel-auth
         ;;
     *)
         termux-toast "Connection error"
