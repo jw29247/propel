@@ -1,16 +1,16 @@
 {
-  "name": "@openclaw/memory-core",
+  "name": "@propel/memory-core",
   "version": "2026.2.23",
   "private": true,
-  "description": "OpenClaw core memory search plugin",
+  "description": "Propel core memory search plugin",
   "type": "module",
   "devDependencies": {
-    "openclaw": "workspace:*"
+    "propel": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.1.26"
+    "propel": ">=2026.1.26"
   },
-  "openclaw": {
+  "propel": {
     "extensions": [
       "./index.ts"
     ]

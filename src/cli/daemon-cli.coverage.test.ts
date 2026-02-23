@@ -97,15 +97,15 @@ describe("daemon-cli coverage", () => {
 
   beforeEach(() => {
     envSnapshot = captureEnv([
-      "OPENCLAW_STATE_DIR",
-      "OPENCLAW_CONFIG_PATH",
-      "OPENCLAW_GATEWAY_PORT",
-      "OPENCLAW_PROFILE",
+      "PROPEL_STATE_DIR",
+      "PROPEL_CONFIG_PATH",
+      "PROPEL_GATEWAY_PORT",
+      "PROPEL_PROFILE",
     ]);
-    process.env.OPENCLAW_STATE_DIR = "/tmp/openclaw-cli-state";
-    process.env.OPENCLAW_CONFIG_PATH = "/tmp/openclaw-cli-state/openclaw.json";
-    delete process.env.OPENCLAW_GATEWAY_PORT;
-    delete process.env.OPENCLAW_PROFILE;
+    process.env.PROPEL_STATE_DIR = "/tmp/propel-cli-state";
+    process.env.PROPEL_CONFIG_PATH = "/tmp/propel-cli-state/propel.json";
+    delete process.env.PROPEL_GATEWAY_PORT;
+    delete process.env.PROPEL_PROFILE;
     serviceReadCommand.mockResolvedValue(null);
   });
 
@@ -133,10 +133,10 @@ describe("daemon-cli coverage", () => {
     serviceReadCommand.mockResolvedValueOnce({
       programArguments: ["/bin/node", "cli", "gateway", "--port", "19001"],
       environment: {
-        OPENCLAW_PROFILE: "dev",
-        OPENCLAW_STATE_DIR: "/tmp/openclaw-daemon-state",
-        OPENCLAW_CONFIG_PATH: "/tmp/openclaw-daemon-state/openclaw.json",
-        OPENCLAW_GATEWAY_PORT: "19001",
+        PROPEL_PROFILE: "dev",
+        PROPEL_STATE_DIR: "/tmp/propel-daemon-state",
+        PROPEL_CONFIG_PATH: "/tmp/propel-daemon-state/propel.json",
+        PROPEL_GATEWAY_PORT: "19001",
       },
       sourcePath: "/tmp/bot.molt.gateway.plist",
     });

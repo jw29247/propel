@@ -1,12 +1,12 @@
 {
-  "name": "@openclaw/irc",
+  "name": "@propel/irc",
   "version": "2026.2.23",
-  "description": "OpenClaw IRC channel plugin",
+  "description": "Propel IRC channel plugin",
   "type": "module",
   "devDependencies": {
-    "openclaw": "workspace:*"
+    "propel": "workspace:*"
   },
-  "openclaw": {
+  "propel": {
     "extensions": [
       "./index.ts"
     ]

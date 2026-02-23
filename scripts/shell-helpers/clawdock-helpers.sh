@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # ClawDock - Docker helpers for OpenClaw
 # Inspired by Simon Willison's "Running OpenClaw in Docker"
-# https://til.simonwillison.net/llms/openclaw-docker
+# https://til.simonwillison.net/llms/propel-docker
 #
 # Installation:
-#   mkdir -p ~/.clawdock && curl -sL https://raw.githubusercontent.com/openclaw/openclaw/main/scripts/shell-helpers/clawdock-helpers.sh -o ~/.clawdock/clawdock-helpers.sh
+#   mkdir -p ~/.clawdock && curl -sL https://raw.githubusercontent.com/propel/propel/main/scripts/shell-helpers/clawdock-helpers.sh -o ~/.clawdock/clawdock-helpers.sh
 #   echo 'source ~/.clawdock/clawdock-helpers.sh' >> ~/.zshrc
 #
 # Usage:
@@ -40,12 +40,12 @@ CLAWDOCK_CONFIG="${HOME}/.clawdock/config"
 
 # Common paths to check for OpenClaw
 CLAWDOCK_COMMON_PATHS=(
-  "${HOME}/openclaw"
-  "${HOME}/workspace/openclaw"
-  "${HOME}/projects/openclaw"
-  "${HOME}/dev/openclaw"
-  "${HOME}/code/openclaw"
-  "${HOME}/src/openclaw"
+  "${HOME}/propel"
+  "${HOME}/workspace/propel"
+  "${HOME}/projects/propel"
+  "${HOME}/dev/propel"
+  "${HOME}/code/propel"
+  "${HOME}/src/propel"
 )
 
 _clawdock_filter_warnings() {
@@ -103,7 +103,7 @@ _clawdock_ensure_dir() {
     if [[ "$response" =~ ^[Nn] ]]; then
       echo ""
       echo "Set CLAWDOCK_DIR manually:"
-      echo "  export CLAWDOCK_DIR=/path/to/openclaw"
+      echo "  export CLAWDOCK_DIR=/path/to/propel"
       return 1
     fi
     CLAWDOCK_DIR="$found_path"
@@ -113,12 +113,12 @@ _clawdock_ensure_dir() {
     echo ""
     echo "Clone it first:"
     echo ""
-    echo "  git clone https://github.com/openclaw/openclaw.git ~/openclaw"
-    echo "  cd ~/openclaw && ./docker-setup.sh"
+    echo "  git clone https://github.com/propel/propel.git ~/propel"
+    echo "  cd ~/propel && ./docker-setup.sh"
     echo ""
     echo "Or set CLAWDOCK_DIR if it's elsewhere:"
     echo ""
-    echo "  export CLAWDOCK_DIR=/path/to/openclaw"
+    echo "  export CLAWDOCK_DIR=/path/to/propel"
     echo ""
     return 1
   fi
@@ -158,7 +158,7 @@ _clawdock_read_env_token() {
 
 # Basic Operations
 clawdock-start() {
-  _clawdock_compose up -d openclaw-gateway
+  _clawdock_compose up -d propel-gateway
 }
 
 clawdock-stop() {
@@ -166,11 +166,11 @@ clawdock-stop() {
 }
 
 clawdock-restart() {
-  _clawdock_compose restart openclaw-gateway
+  _clawdock_compose restart propel-gateway
 }
 
 clawdock-logs() {
-  _clawdock_compose logs -f openclaw-gateway
+  _clawdock_compose logs -f propel-gateway
 }
 
 clawdock-status() {
@@ -184,30 +184,30 @@ clawdock-cd() {
 }
 
 clawdock-config() {
-  cd ~/.openclaw
+  cd ~/.propel
 }
 
 clawdock-workspace() {
-  cd ~/.openclaw/workspace
+  cd ~/.propel/workspace
 }
 
 # Container Access
 clawdock-shell() {
-  _clawdock_compose exec openclaw-gateway \
-    bash -c 'echo "alias openclaw=\"./openclaw.mjs\"" > /tmp/.bashrc_openclaw && bash --rcfile /tmp/.bashrc_openclaw'
+  _clawdock_compose exec propel-gateway \
+    bash -c 'echo "alias propel=\"./propel.mjs\"" > /tmp/.bashrc_propel && bash --rcfile /tmp/.bashrc_propel'
 }
 
 clawdock-exec() {
-  _clawdock_compose exec openclaw-gateway "$@"
+  _clawdock_compose exec propel-gateway "$@"
 }
 
 clawdock-cli() {
-  _clawdock_compose run --rm openclaw-cli "$@"
+  _clawdock_compose run --rm propel-cli "$@"
 }
 
 # Maintenance
 clawdock-rebuild() {
-  _clawdock_compose build openclaw-gateway
+  _clawdock_compose build propel-gateway
 }
 
 clawdock-clean() {
@@ -224,7 +224,7 @@ clawdock-health() {
     echo "   Check: ${CLAWDOCK_DIR}/.env"
     return 1
   fi
-  _clawdock_compose exec -e "OPENCLAW_GATEWAY_TOKEN=$token" openclaw-gateway \
+  _clawdock_compose exec -e "OPENCLAW_GATEWAY_TOKEN=$token" propel-gateway \
     node dist/index.js health
 }
 
@@ -248,13 +248,13 @@ clawdock-fix-token() {
 
   echo "📝 Setting token: ${token:0:20}..."
 
-  _clawdock_compose exec -e "TOKEN=$token" openclaw-gateway \
-    bash -c './openclaw.mjs config set gateway.remote.token "$TOKEN" && ./openclaw.mjs config set gateway.auth.token "$TOKEN"' 2>&1 | _clawdock_filter_warnings
+  _clawdock_compose exec -e "TOKEN=$token" propel-gateway \
+    bash -c './propel.mjs config set gateway.remote.token "$TOKEN" && ./propel.mjs config set gateway.auth.token "$TOKEN"' 2>&1 | _clawdock_filter_warnings
 
   echo "🔍 Verifying token was saved..."
   local saved_token
-  saved_token=$(_clawdock_compose exec openclaw-gateway \
-    bash -c "./openclaw.mjs config get gateway.remote.token 2>/dev/null" 2>&1 | _clawdock_filter_warnings | tr -d '\r\n' | head -c 64)
+  saved_token=$(_clawdock_compose exec propel-gateway \
+    bash -c "./propel.mjs config get gateway.remote.token 2>/dev/null" 2>&1 | _clawdock_filter_warnings | tr -d '\r\n' | head -c 64)
 
   if [[ "$saved_token" == "$token" ]]; then
     echo "✅ Token saved correctly!"
@@ -265,7 +265,7 @@ clawdock-fix-token() {
   fi
 
   echo "🔄 Restarting gateway..."
-  _clawdock_compose restart openclaw-gateway 2>&1 | _clawdock_filter_warnings
+  _clawdock_compose restart propel-gateway 2>&1 | _clawdock_filter_warnings
 
   echo "⏳ Waiting for gateway to start..."
   sleep 5
@@ -280,7 +280,7 @@ clawdock-dashboard() {
 
   echo "🦞 Getting dashboard URL..."
   local output exit_status url
-  output=$(_clawdock_compose run --rm openclaw-cli dashboard --no-open 2>&1)
+  output=$(_clawdock_compose run --rm propel-cli dashboard --no-open 2>&1)
   exit_status=$?
   url=$(printf "%s\n" "$output" | _clawdock_filter_warnings | grep -o 'http[s]\?://[^[:space:]]*' | head -n 1)
   if [[ $exit_status -ne 0 ]]; then
@@ -309,7 +309,7 @@ clawdock-devices() {
 
   echo "🔍 Checking device pairings..."
   local output exit_status
-  output=$(_clawdock_compose exec openclaw-gateway node dist/index.js devices list 2>&1)
+  output=$(_clawdock_compose exec propel-gateway node dist/index.js devices list 2>&1)
   exit_status=$?
   printf "%s\n" "$output" | _clawdock_filter_warnings
   if [ $exit_status -ne 0 ]; then
@@ -318,7 +318,7 @@ clawdock-devices() {
     echo -e "   1. Verify token is set: $(_cmd clawdock-token)"
     echo "   2. Try manual config inside container:"
     echo -e "      $(_cmd clawdock-shell)"
-    echo -e "      $(_cmd 'openclaw config get gateway.remote.token')"
+    echo -e "      $(_cmd 'propel config get gateway.remote.token')"
     return 1
   fi
 
@@ -345,7 +345,7 @@ clawdock-approve() {
   fi
 
   echo "✅ Approving device: $1"
-  _clawdock_compose exec openclaw-gateway \
+  _clawdock_compose exec propel-gateway \
     node dist/index.js devices approve "$1" 2>&1 | _clawdock_filter_warnings
 
   echo ""
@@ -365,7 +365,7 @@ clawdock-help() {
   echo ""
 
   echo -e "${_CLR_BOLD}${_CLR_MAGENTA}🐚 Container Access${_CLR_RESET}"
-  echo -e "  $(_cmd clawdock-shell)       ${_CLR_DIM}Shell into container (openclaw alias ready)${_CLR_RESET}"
+  echo -e "  $(_cmd clawdock-shell)       ${_CLR_DIM}Shell into container (propel alias ready)${_CLR_RESET}"
   echo -e "  $(_cmd clawdock-cli)         ${_CLR_DIM}Run CLI commands (e.g., clawdock-cli status)${_CLR_RESET}"
   echo -e "  $(_cmd clawdock-exec) ${_CLR_CYAN}<cmd>${_CLR_RESET}  ${_CLR_DIM}Execute command in gateway container${_CLR_RESET}"
   echo ""
@@ -388,8 +388,8 @@ clawdock-help() {
   echo -e "${_CLR_BOLD}${_CLR_MAGENTA}🛠️  Utilities${_CLR_RESET}"
   echo -e "  $(_cmd clawdock-health)      ${_CLR_DIM}Run health check${_CLR_RESET}"
   echo -e "  $(_cmd clawdock-token)       ${_CLR_DIM}Show gateway auth token${_CLR_RESET}"
-  echo -e "  $(_cmd clawdock-cd)          ${_CLR_DIM}Jump to openclaw project directory${_CLR_RESET}"
-  echo -e "  $(_cmd clawdock-config)      ${_CLR_DIM}Open config directory (~/.openclaw)${_CLR_RESET}"
+  echo -e "  $(_cmd clawdock-cd)          ${_CLR_DIM}Jump to propel project directory${_CLR_RESET}"
+  echo -e "  $(_cmd clawdock-config)      ${_CLR_DIM}Open config directory (~/.propel)${_CLR_RESET}"
   echo -e "  $(_cmd clawdock-workspace)   ${_CLR_DIM}Open workspace directory${_CLR_RESET}"
   echo ""
 
@@ -404,14 +404,14 @@ clawdock-help() {
 
   echo -e "${_CLR_BOLD}${_CLR_GREEN}💬 WhatsApp Setup${_CLR_RESET}"
   echo -e "  $(_cmd clawdock-shell)"
-  echo -e "    ${_CLR_BLUE}>${_CLR_RESET} $(_cmd 'openclaw channels login --channel whatsapp')"
-  echo -e "    ${_CLR_BLUE}>${_CLR_RESET} $(_cmd 'openclaw status')"
+  echo -e "    ${_CLR_BLUE}>${_CLR_RESET} $(_cmd 'propel channels login --channel whatsapp')"
+  echo -e "    ${_CLR_BLUE}>${_CLR_RESET} $(_cmd 'propel status')"
   echo ""
 
   echo -e "${_CLR_BOLD}${_CLR_CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_CLR_RESET}"
   echo ""
 
   echo -e "${_CLR_CYAN}💡 All commands guide you through next steps!${_CLR_RESET}"
-  echo -e "${_CLR_BLUE}📚 Docs: ${_CLR_RESET}${_CLR_CYAN}https://docs.openclaw.ai${_CLR_RESET}"
+  echo -e "${_CLR_BLUE}📚 Docs: ${_CLR_RESET}${_CLR_CYAN}https://docs.propel.ai${_CLR_RESET}"
   echo ""
 }

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# One-time host setup for rootless OpenClaw in Podman: creates the openclaw
+# One-time host setup for rootless OpenClaw in Podman: creates the propel
 # user, builds the image, loads it into that user's Podman store, and installs
 # the launch script. Run from repo root with sudo capability.
 #
@@ -9,16 +9,16 @@
 #   Or set OPENCLAW_PODMAN_QUADLET=1 (or 0) to choose without a flag.
 #
 # After this, start the gateway manually:
-#   ./scripts/run-openclaw-podman.sh launch
-#   ./scripts/run-openclaw-podman.sh launch setup   # onboarding wizard
-# Or as the openclaw user: sudo -u openclaw /home/openclaw/run-openclaw-podman.sh
-# If you used --quadlet, you can also: sudo systemctl --machine openclaw@ --user start openclaw.service
+#   ./scripts/run-propel-podman.sh launch
+#   ./scripts/run-propel-podman.sh launch setup   # onboarding wizard
+# Or as the propel user: sudo -u propel /home/propel/run-propel-podman.sh
+# If you used --quadlet, you can also: sudo systemctl --machine propel@ --user start propel.service
 set -euo pipefail
 
-OPENCLAW_USER="${OPENCLAW_PODMAN_USER:-openclaw}"
+OPENCLAW_USER="${OPENCLAW_PODMAN_USER:-propel}"
 REPO_PATH="${OPENCLAW_REPO_PATH:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
-RUN_SCRIPT_SRC="$REPO_PATH/scripts/run-openclaw-podman.sh"
-QUADLET_TEMPLATE="$REPO_PATH/scripts/podman/openclaw.container.in"
+RUN_SCRIPT_SRC="$REPO_PATH/scripts/run-propel-podman.sh"
+QUADLET_TEMPLATE="$REPO_PATH/scripts/podman/propel.container.in"
 
 require_cmd() {
   if ! command -v "$1" >/dev/null 2>&1; then
@@ -50,7 +50,7 @@ run_as_user() {
   fi
 }
 
-run_as_openclaw() {
+run_as_propel() {
   # Avoid root writes into $OPENCLAW_HOME (symlink/hardlink/TOCTOU footguns).
   # Anything under the target user's home should be created/modified as that user.
   run_as_user "$OPENCLAW_USER" env HOME="$OPENCLAW_HOME" "$@"
@@ -138,7 +138,7 @@ resolve_nologin_shell() {
   printf '%s' "/usr/sbin/nologin"
 }
 
-# Create openclaw user (non-login, with home) if missing
+# Create propel user (non-login, with home) if missing
 if ! user_exists "$OPENCLAW_USER"; then
   NOLOGIN_SHELL="$(resolve_nologin_shell)"
   echo "Creating user $OPENCLAW_USER ($NOLOGIN_SHELL, with home)..."
@@ -157,8 +157,8 @@ fi
 
 OPENCLAW_HOME="$(resolve_user_home "$OPENCLAW_USER")"
 OPENCLAW_UID="$(id -u "$OPENCLAW_USER" 2>/dev/null || true)"
-OPENCLAW_CONFIG="$OPENCLAW_HOME/.openclaw"
-LAUNCH_SCRIPT_DST="$OPENCLAW_HOME/run-openclaw-podman.sh"
+OPENCLAW_CONFIG="$OPENCLAW_HOME/.propel"
+LAUNCH_SCRIPT_DST="$OPENCLAW_HOME/run-propel-podman.sh"
 
 # Prefer systemd user services (Quadlet) for production. Enable lingering early so rootless Podman can run
 # without an interactive login.
@@ -176,62 +176,62 @@ if ! grep -q "^${OPENCLAW_USER}:" /etc/subuid 2>/dev/null; then
 fi
 
 echo "Creating $OPENCLAW_CONFIG and workspace..."
-run_as_openclaw mkdir -p "$OPENCLAW_CONFIG/workspace"
-run_as_openclaw chmod 700 "$OPENCLAW_CONFIG" "$OPENCLAW_CONFIG/workspace" 2>/dev/null || true
+run_as_propel mkdir -p "$OPENCLAW_CONFIG/workspace"
+run_as_propel chmod 700 "$OPENCLAW_CONFIG" "$OPENCLAW_CONFIG/workspace" 2>/dev/null || true
 
 ENV_FILE="$OPENCLAW_CONFIG/.env"
-if run_as_openclaw test -f "$ENV_FILE"; then
-  if ! run_as_openclaw grep -q '^OPENCLAW_GATEWAY_TOKEN=' "$ENV_FILE" 2>/dev/null; then
+if run_as_propel test -f "$ENV_FILE"; then
+  if ! run_as_propel grep -q '^OPENCLAW_GATEWAY_TOKEN=' "$ENV_FILE" 2>/dev/null; then
     TOKEN="$(generate_token_hex_32)"
-    printf 'OPENCLAW_GATEWAY_TOKEN=%s\n' "$TOKEN" | run_as_openclaw tee -a "$ENV_FILE" >/dev/null
+    printf 'OPENCLAW_GATEWAY_TOKEN=%s\n' "$TOKEN" | run_as_propel tee -a "$ENV_FILE" >/dev/null
     echo "Added OPENCLAW_GATEWAY_TOKEN to $ENV_FILE."
   fi
-  run_as_openclaw chmod 600 "$ENV_FILE" 2>/dev/null || true
+  run_as_propel chmod 600 "$ENV_FILE" 2>/dev/null || true
 else
   TOKEN="$(generate_token_hex_32)"
-  printf 'OPENCLAW_GATEWAY_TOKEN=%s\n' "$TOKEN" | run_as_openclaw tee "$ENV_FILE" >/dev/null
-  run_as_openclaw chmod 600 "$ENV_FILE" 2>/dev/null || true
+  printf 'OPENCLAW_GATEWAY_TOKEN=%s\n' "$TOKEN" | run_as_propel tee "$ENV_FILE" >/dev/null
+  run_as_propel chmod 600 "$ENV_FILE" 2>/dev/null || true
   echo "Created $ENV_FILE with new token."
 fi
 
 # The gateway refuses to start unless gateway.mode=local is set in config.
 # Make first-run non-interactive; users can run the wizard later to configure channels/providers.
-OPENCLAW_JSON="$OPENCLAW_CONFIG/openclaw.json"
-if ! run_as_openclaw test -f "$OPENCLAW_JSON"; then
-  printf '%s\n' '{ gateway: { mode: "local" } }' | run_as_openclaw tee "$OPENCLAW_JSON" >/dev/null
-  run_as_openclaw chmod 600 "$OPENCLAW_JSON" 2>/dev/null || true
+OPENCLAW_JSON="$OPENCLAW_CONFIG/propel.json"
+if ! run_as_propel test -f "$OPENCLAW_JSON"; then
+  printf '%s\n' '{ gateway: { mode: "local" } }' | run_as_propel tee "$OPENCLAW_JSON" >/dev/null
+  run_as_propel chmod 600 "$OPENCLAW_JSON" 2>/dev/null || true
   echo "Created $OPENCLAW_JSON (minimal gateway.mode=local)."
 fi
 
 echo "Building image from $REPO_PATH..."
-podman build -t openclaw:local -f "$REPO_PATH/Dockerfile" "$REPO_PATH"
+podman build -t propel:local -f "$REPO_PATH/Dockerfile" "$REPO_PATH"
 
 echo "Loading image into $OPENCLAW_USER's Podman store..."
-TMP_IMAGE="$(mktemp -p /tmp openclaw-image.XXXXXX.tar)"
+TMP_IMAGE="$(mktemp -p /tmp propel-image.XXXXXX.tar)"
 trap 'rm -f "$TMP_IMAGE"' EXIT
-podman save openclaw:local -o "$TMP_IMAGE"
+podman save propel:local -o "$TMP_IMAGE"
 chmod 644 "$TMP_IMAGE"
 (cd /tmp && run_as_user "$OPENCLAW_USER" env HOME="$OPENCLAW_HOME" podman load -i "$TMP_IMAGE")
 rm -f "$TMP_IMAGE"
 trap - EXIT
 
 echo "Copying launch script to $LAUNCH_SCRIPT_DST..."
-run_root cat "$RUN_SCRIPT_SRC" | run_as_openclaw tee "$LAUNCH_SCRIPT_DST" >/dev/null
-run_as_openclaw chmod 755 "$LAUNCH_SCRIPT_DST"
+run_root cat "$RUN_SCRIPT_SRC" | run_as_propel tee "$LAUNCH_SCRIPT_DST" >/dev/null
+run_as_propel chmod 755 "$LAUNCH_SCRIPT_DST"
 
-# Optionally install systemd quadlet for openclaw user (rootless Podman + systemd)
+# Optionally install systemd quadlet for propel user (rootless Podman + systemd)
 QUADLET_DIR="$OPENCLAW_HOME/.config/containers/systemd"
 if [[ "$INSTALL_QUADLET" == true && -f "$QUADLET_TEMPLATE" ]]; then
   echo "Installing systemd quadlet for $OPENCLAW_USER..."
-  run_as_openclaw mkdir -p "$QUADLET_DIR"
+  run_as_propel mkdir -p "$QUADLET_DIR"
   OPENCLAW_HOME_SED="$(printf '%s' "$OPENCLAW_HOME" | sed -e 's/[\\/&|]/\\\\&/g')"
-  sed "s|{{OPENCLAW_HOME}}|$OPENCLAW_HOME_SED|g" "$QUADLET_TEMPLATE" | run_as_openclaw tee "$QUADLET_DIR/openclaw.container" >/dev/null
-  run_as_openclaw chmod 700 "$OPENCLAW_HOME/.config" "$OPENCLAW_HOME/.config/containers" "$QUADLET_DIR" 2>/dev/null || true
-  run_as_openclaw chmod 600 "$QUADLET_DIR/openclaw.container" 2>/dev/null || true
+  sed "s|{{OPENCLAW_HOME}}|$OPENCLAW_HOME_SED|g" "$QUADLET_TEMPLATE" | run_as_propel tee "$QUADLET_DIR/propel.container" >/dev/null
+  run_as_propel chmod 700 "$OPENCLAW_HOME/.config" "$OPENCLAW_HOME/.config/containers" "$QUADLET_DIR" 2>/dev/null || true
+  run_as_propel chmod 600 "$QUADLET_DIR/propel.container" 2>/dev/null || true
   if command -v systemctl &>/dev/null; then
     run_root systemctl --machine "${OPENCLAW_USER}@" --user daemon-reload 2>/dev/null || true
-    run_root systemctl --machine "${OPENCLAW_USER}@" --user enable openclaw.service 2>/dev/null || true
-    run_root systemctl --machine "${OPENCLAW_USER}@" --user start openclaw.service 2>/dev/null || true
+    run_root systemctl --machine "${OPENCLAW_USER}@" --user enable propel.service 2>/dev/null || true
+    run_root systemctl --machine "${OPENCLAW_USER}@" --user start propel.service 2>/dev/null || true
   fi
 fi
 
@@ -244,8 +244,8 @@ echo "  sudo -u $OPENCLAW_USER $LAUNCH_SCRIPT_DST"
 echo "  sudo -u $OPENCLAW_USER $LAUNCH_SCRIPT_DST setup"
 if [[ "$INSTALL_QUADLET" == true ]]; then
   echo "Or use systemd (quadlet):"
-  echo "  sudo systemctl --machine ${OPENCLAW_USER}@ --user start openclaw.service"
-  echo "  sudo systemctl --machine ${OPENCLAW_USER}@ --user status openclaw.service"
+  echo "  sudo systemctl --machine ${OPENCLAW_USER}@ --user start propel.service"
+  echo "  sudo systemctl --machine ${OPENCLAW_USER}@ --user status propel.service"
 else
   echo "To install systemd quadlet later: $0 --quadlet"
 fi

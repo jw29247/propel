@@ -1,12 +1,12 @@
 {
-  "name": "@openclaw/mattermost",
+  "name": "@propel/mattermost",
   "version": "2026.2.23",
-  "description": "OpenClaw Mattermost channel plugin",
+  "description": "Propel Mattermost channel plugin",
   "type": "module",
   "devDependencies": {
-    "openclaw": "workspace:*"
+    "propel": "workspace:*"
   },
-  "openclaw": {
+  "propel": {
     "extensions": [
       "./index.ts"
     ],
@@ -20,7 +20,7 @@
       "order": 65
     },
     "install": {
-      "npmSpec": "@openclaw/mattermost",
+      "npmSpec": "@propel/mattermost",
       "localPath": "extensions/mattermost",
       "defaultChoice": "npm"
     }

@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/signal",
+  "name": "@propel/signal",
   "version": "2026.2.23",
   "private": true,
-  "description": "OpenClaw Signal channel plugin",
+  "description": "Propel Signal channel plugin",
   "type": "module",
   "devDependencies": {
-    "openclaw": "workspace:*"
+    "propel": "workspace:*"
   },
-  "openclaw": {
+  "propel": {
     "extensions": [
       "./index.ts"
     ]

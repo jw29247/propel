@@ -1,8 +1,8 @@
-import type { PluginRuntime } from "openclaw/plugin-sdk";
+import type { PluginRuntime } from "propel/plugin-sdk";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { setMSTeamsRuntime } from "./runtime.js";
 
-vi.mock("openclaw/plugin-sdk", () => ({
+vi.mock("propel/plugin-sdk", () => ({
   isPrivateIpAddress: () => false,
 }));
 

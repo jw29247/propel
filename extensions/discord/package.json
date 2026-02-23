@@ -1,12 +1,12 @@
 {
-  "name": "@openclaw/discord",
+  "name": "@propel/discord",
   "version": "2026.2.23",
-  "description": "OpenClaw Discord channel plugin",
+  "description": "Propel Discord channel plugin",
   "type": "module",
   "devDependencies": {
-    "openclaw": "workspace:*"
+    "propel": "workspace:*"
   },
-  "openclaw": {
+  "propel": {
     "extensions": [
       "./index.ts"
     ]

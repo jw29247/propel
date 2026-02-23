@@ -1,15 +1,15 @@
 {
-  "name": "@openclaw/zalo",
+  "name": "@propel/zalo",
   "version": "2026.2.23",
-  "description": "OpenClaw Zalo channel plugin",
+  "description": "Propel Zalo channel plugin",
   "type": "module",
   "dependencies": {
     "undici": "7.22.0"
   },
   "devDependencies": {
-    "openclaw": "workspace:*"
+    "propel": "workspace:*"
   },
-  "openclaw": {
+  "propel": {
     "extensions": [
       "./index.ts"
     ],
@@ -27,7 +27,7 @@
       "quickstartAllowFrom": true
     },
     "install": {
-      "npmSpec": "@openclaw/zalo",
+      "npmSpec": "@propel/zalo",
       "localPath": "extensions/zalo",
       "defaultChoice": "npm"
     }

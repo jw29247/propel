@@ -1,10 +1,10 @@
-import type { OpenClawConfig } from "../config/config.js";
+import type { PropelConfig } from "../config/config.js";
 
 export function setPluginEnabledInConfig(
-  config: OpenClawConfig,
+  config: PropelConfig,
   pluginId: string,
   enabled: boolean,
-): OpenClawConfig {
+): PropelConfig {
   return {
     ...config,
     plugins: {

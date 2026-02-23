@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/llm-task",
+  "name": "@propel/llm-task",
   "version": "2026.2.23",
   "private": true,
-  "description": "OpenClaw JSON-only LLM task plugin",
+  "description": "Propel JSON-only LLM task plugin",
   "type": "module",
-  "openclaw": {
+  "propel": {
     "extensions": [
       "./index.ts"
     ]
