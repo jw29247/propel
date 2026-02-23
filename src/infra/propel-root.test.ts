@@ -94,8 +94,7 @@ describe("resolvePropelPackageRoot", () => {
   let resolvePropelPackageRootSync: typeof import("./propel-root.js").resolvePropelPackageRootSync;
 
   beforeAll(async () => {
-    ({ resolvePropelPackageRoot, resolvePropelPackageRootSync } =
-      await import("./propel-root.js"));
+    ({ resolvePropelPackageRoot, resolvePropelPackageRootSync } = await import("./propel-root.js"));
   });
 
   beforeEach(() => {

@@ -5,9 +5,9 @@ import type { AgentTool, AgentToolResult } from "@mariozechner/pi-agent-core";
 import { Type } from "@sinclair/typebox";
 import { describe, expect, it, vi } from "vitest";
 import "./test-helpers/fast-coding-tools.js";
-import { createPropelTools } from "./propel-tools.js";
 import { __testing, createPropelCodingTools } from "./pi-tools.js";
 import { createPropelReadTool, createSandboxedReadTool } from "./pi-tools.read.js";
+import { createPropelTools } from "./propel-tools.js";
 import { createHostSandboxFsBridge } from "./test-helpers/host-sandbox-fs-bridge.js";
 import { createBrowserTool } from "./tools/browser-tool.js";
 
