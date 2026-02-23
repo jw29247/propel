@@ -6,7 +6,7 @@ import {
   MarkdownConfigSchema,
   ToolPolicySchema,
   requireOpenAllowFrom,
-} from "openclaw/plugin-sdk";
+} from "propel/plugin-sdk";
 import { z } from "zod";
 
 const IrcGroupSchema = z

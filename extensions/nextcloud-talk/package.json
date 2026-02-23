@@ -1,12 +1,12 @@
 {
-  "name": "@openclaw/nextcloud-talk",
+  "name": "@propel/nextcloud-talk",
   "version": "2026.2.23",
-  "description": "OpenClaw Nextcloud Talk channel plugin",
+  "description": "Propel Nextcloud Talk channel plugin",
   "type": "module",
   "devDependencies": {
-    "openclaw": "workspace:*"
+    "propel": "workspace:*"
   },
-  "openclaw": {
+  "propel": {
     "extensions": [
       "./index.ts"
     ],
@@ -25,7 +25,7 @@
       "quickstartAllowFrom": true
     },
     "install": {
-      "npmSpec": "@openclaw/nextcloud-talk",
+      "npmSpec": "@propel/nextcloud-talk",
       "localPath": "extensions/nextcloud-talk",
       "defaultChoice": "npm"
     }

@@ -3,18 +3,18 @@
 #
 # One-time setup (from repo root): ./setup-podman.sh
 # Then:
-#   ./scripts/run-openclaw-podman.sh launch           # Start gateway
-#   ./scripts/run-openclaw-podman.sh launch setup      # Onboarding wizard
+#   ./scripts/run-propel-podman.sh launch           # Start gateway
+#   ./scripts/run-propel-podman.sh launch setup      # Onboarding wizard
 #
-# As the openclaw user (no repo needed):
-#   sudo -u openclaw /home/openclaw/run-openclaw-podman.sh
-#   sudo -u openclaw /home/openclaw/run-openclaw-podman.sh setup
+# As the propel user (no repo needed):
+#   sudo -u propel /home/propel/run-propel-podman.sh
+#   sudo -u propel /home/propel/run-propel-podman.sh setup
 #
 # Legacy: "setup-host" delegates to ../setup-podman.sh
 
 set -euo pipefail
 
-OPENCLAW_USER="${OPENCLAW_PODMAN_USER:-openclaw}"
+OPENCLAW_USER="${OPENCLAW_PODMAN_USER:-propel}"
 
 resolve_user_home() {
   local user="$1"
@@ -33,7 +33,7 @@ resolve_user_home() {
 
 OPENCLAW_HOME="$(resolve_user_home "$OPENCLAW_USER")"
 OPENCLAW_UID="$(id -u "$OPENCLAW_USER" 2>/dev/null || true)"
-LAUNCH_SCRIPT="$OPENCLAW_HOME/run-openclaw-podman.sh"
+LAUNCH_SCRIPT="$OPENCLAW_HOME/run-propel-podman.sh"
 
 # Legacy: setup-host → run setup-podman.sh
 if [[ "${1:-}" == "setup-host" ]]; then
@@ -47,18 +47,18 @@ if [[ "${1:-}" == "setup-host" ]]; then
   exit 1
 fi
 
-# --- Step 2: launch (from repo: re-exec as openclaw in safe cwd; from openclaw home: run container) ---
+# --- Step 2: launch (from repo: re-exec as propel in safe cwd; from propel home: run container) ---
 if [[ "${1:-}" == "launch" ]]; then
   shift
   if [[ -n "${OPENCLAW_UID:-}" && "$(id -u)" -ne "$OPENCLAW_UID" ]]; then
-    # Exec as openclaw with cwd=/tmp so a nologin user never inherits an invalid cwd.
+    # Exec as propel with cwd=/tmp so a nologin user never inherits an invalid cwd.
     exec sudo -u "$OPENCLAW_USER" env HOME="$OPENCLAW_HOME" PATH="$PATH" TERM="${TERM:-}" \
       bash -c 'cd /tmp && exec '"$LAUNCH_SCRIPT"' "$@"' _ "$@"
   fi
-  # Already openclaw; fall through to container run (with remaining args, e.g. "setup")
+  # Already propel; fall through to container run (with remaining args, e.g. "setup")
 fi
 
-# --- Container run (script in openclaw home, run as openclaw) ---
+# --- Container run (script in propel home, run as propel) ---
 EFFECTIVE_HOME="${HOME:-}"
 if [[ -n "${OPENCLAW_UID:-}" && "$(id -u)" -eq "$OPENCLAW_UID" ]]; then
   EFFECTIVE_HOME="$OPENCLAW_HOME"
@@ -67,17 +67,17 @@ fi
 if [[ -z "${EFFECTIVE_HOME:-}" ]]; then
   EFFECTIVE_HOME="${OPENCLAW_HOME:-/tmp}"
 fi
-CONFIG_DIR="${OPENCLAW_CONFIG_DIR:-$EFFECTIVE_HOME/.openclaw}"
+CONFIG_DIR="${OPENCLAW_CONFIG_DIR:-$EFFECTIVE_HOME/.propel}"
 ENV_FILE="${OPENCLAW_PODMAN_ENV:-$CONFIG_DIR/.env}"
 WORKSPACE_DIR="${OPENCLAW_WORKSPACE_DIR:-$CONFIG_DIR/workspace}"
-CONTAINER_NAME="${OPENCLAW_PODMAN_CONTAINER:-openclaw}"
-OPENCLAW_IMAGE="${OPENCLAW_PODMAN_IMAGE:-openclaw:local}"
+CONTAINER_NAME="${OPENCLAW_PODMAN_CONTAINER:-propel}"
+OPENCLAW_IMAGE="${OPENCLAW_PODMAN_IMAGE:-propel:local}"
 PODMAN_PULL="${OPENCLAW_PODMAN_PULL:-never}"
 HOST_GATEWAY_PORT="${OPENCLAW_PODMAN_GATEWAY_HOST_PORT:-${OPENCLAW_GATEWAY_PORT:-18789}}"
 HOST_BRIDGE_PORT="${OPENCLAW_PODMAN_BRIDGE_HOST_PORT:-${OPENCLAW_BRIDGE_PORT:-18790}}"
 GATEWAY_BIND="${OPENCLAW_GATEWAY_BIND:-lan}"
 
-# Safe cwd for podman (openclaw is nologin; avoid inherited cwd from sudo)
+# Safe cwd for podman (propel is nologin; avoid inherited cwd from sudo)
 cd "$EFFECTIVE_HOME" 2>/dev/null || cd /tmp 2>/dev/null || true
 
 RUN_SETUP=false
@@ -147,7 +147,7 @@ fi
 
 # The gateway refuses to start unless gateway.mode=local is set in config.
 # Keep this minimal; users can run the wizard later to configure channels/providers.
-CONFIG_JSON="$CONFIG_DIR/openclaw.json"
+CONFIG_JSON="$CONFIG_DIR/propel.json"
 if [[ ! -f "$CONFIG_JSON" ]]; then
   echo '{ gateway: { mode: "local" } }' >"$CONFIG_JSON"
   chmod 600 "$CONFIG_JSON" 2>/dev/null || true
@@ -185,8 +185,8 @@ if [[ "$RUN_SETUP" == true ]]; then
     "${USERNS_ARGS[@]}" "${RUN_USER_ARGS[@]}" \
     -e HOME=/home/node -e TERM=xterm-256color -e BROWSER=echo \
     -e OPENCLAW_GATEWAY_TOKEN="$OPENCLAW_GATEWAY_TOKEN" \
-    -v "$CONFIG_DIR:/home/node/.openclaw:rw" \
-    -v "$WORKSPACE_DIR:/home/node/.openclaw/workspace:rw" \
+    -v "$CONFIG_DIR:/home/node/.propel:rw" \
+    -v "$WORKSPACE_DIR:/home/node/.propel/workspace:rw" \
     "${ENV_FILE_ARGS[@]}" \
     "$OPENCLAW_IMAGE" \
     node dist/index.js onboard "$@"
@@ -199,8 +199,8 @@ podman run --pull="$PODMAN_PULL" -d --replace \
   -e HOME=/home/node -e TERM=xterm-256color \
   -e OPENCLAW_GATEWAY_TOKEN="$OPENCLAW_GATEWAY_TOKEN" \
   "${ENV_FILE_ARGS[@]}" \
-  -v "$CONFIG_DIR:/home/node/.openclaw:rw" \
-  -v "$WORKSPACE_DIR:/home/node/.openclaw/workspace:rw" \
+  -v "$CONFIG_DIR:/home/node/.propel:rw" \
+  -v "$WORKSPACE_DIR:/home/node/.propel/workspace:rw" \
   -p "${HOST_GATEWAY_PORT}:18789" \
   -p "${HOST_BRIDGE_PORT}:18790" \
   "$OPENCLAW_IMAGE" \

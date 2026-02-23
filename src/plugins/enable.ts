@@ -1,14 +1,14 @@
 import { normalizeChatChannelId } from "../channels/registry.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { PropelConfig } from "../config/config.js";
 import { ensurePluginAllowlisted } from "../config/plugins-allowlist.js";
 
 export type PluginEnableResult = {
-  config: OpenClawConfig;
+  config: PropelConfig;
   enabled: boolean;
   reason?: string;
 };
 
-export function enablePluginInConfig(cfg: OpenClawConfig, pluginId: string): PluginEnableResult {
+export function enablePluginInConfig(cfg: PropelConfig, pluginId: string): PluginEnableResult {
   const builtInChannelId = normalizeChatChannelId(pluginId);
   const resolvedId = builtInChannelId ?? pluginId;
   if (cfg.plugins?.enabled === false) {
@@ -24,7 +24,7 @@ export function enablePluginInConfig(cfg: OpenClawConfig, pluginId: string): Plu
       existing && typeof existing === "object" && !Array.isArray(existing)
         ? (existing as Record<string, unknown>)
         : {};
-    let next: OpenClawConfig = {
+    let next: PropelConfig = {
       ...cfg,
       channels: {
         ...cfg.channels,
@@ -45,7 +45,7 @@ export function enablePluginInConfig(cfg: OpenClawConfig, pluginId: string): Plu
       enabled: true,
     },
   };
-  let next: OpenClawConfig = {
+  let next: PropelConfig = {
     ...cfg,
     plugins: {
       ...cfg.plugins,

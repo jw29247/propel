@@ -6,7 +6,7 @@ import { withTempHomeConfig } from "./test-helpers.js";
 
 describe("multi-agent agentDir validation", () => {
   it("rejects shared agents.list agentDir", async () => {
-    const shared = path.join(tmpdir(), "openclaw-shared-agentdir");
+    const shared = path.join(tmpdir(), "propel-shared-agentdir");
     const res = validateConfigObject({
       agents: {
         list: [
@@ -27,8 +27,8 @@ describe("multi-agent agentDir validation", () => {
       {
         agents: {
           list: [
-            { id: "a", agentDir: "~/.openclaw/agents/shared/agent" },
-            { id: "b", agentDir: "~/.openclaw/agents/shared/agent" },
+            { id: "a", agentDir: "~/.propel/agents/shared/agent" },
+            { id: "b", agentDir: "~/.propel/agents/shared/agent" },
           ],
         },
         bindings: [{ agentId: "a", match: { channel: "telegram" } }],
