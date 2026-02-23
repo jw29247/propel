@@ -10,5 +10,6 @@
     "healthcheckTimeout": 30,
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 3
-  }
+  },
+  "$comment": "SECURITY: Requires PROPEL_GATEWAY_TOKEN env var. Gateway will crash on startup if not set. Set PROPEL_CONTROL_UI_ENABLED=false for production. See DEPLOYMENT-SECURITY.md"
 }
