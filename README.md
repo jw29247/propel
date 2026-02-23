@@ -2,7 +2,7 @@
 
 **AI Agent Implementation for Professional Services**
 
-Propel is a multi-tenant AI agent platform designed for B2B professional services firms (law, accounting, consulting, etc.). Built on a fork of OpenClaw, it provides enterprise-ready agent orchestration, multi-org support, and compliance-first architecture.
+Propel is a multi-tenant AI agent platform designed for B2B professional services firms (law, accounting, consulting, etc.). It provides enterprise-ready agent orchestration, multi-org support, and compliance-first architecture.
 
 ## Status
 
@@ -45,7 +45,3 @@ node propel.mjs gateway
 ## License
 
 MIT
-
-## Credits
-
-Forked from [OpenClaw](https://github.com/openclaw/openclaw) — personal AI assistant platform.
