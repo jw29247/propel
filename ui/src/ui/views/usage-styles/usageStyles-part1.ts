@@ -57,13 +57,13 @@ export const usageStylesPart1 = `
     background: rgba(255, 77, 77, 0.1);
     border-radius: 4px;
     font-size: 12px;
-    color: #ff4d4d;
+    color: #fbbf24;
   }
   .usage-refresh-indicator::before {
     content: "";
     width: 10px;
     height: 10px;
-    border: 2px solid #ff4d4d;
+    border: 2px solid #fbbf24;
     border-top-color: transparent;
     border-radius: 50%;
     animation: usage-spin 0.6s linear infinite;
@@ -161,14 +161,14 @@ export const usageStylesPart1 = `
     border-color: var(--border-strong);
   }
   .usage-primary-btn {
-    background: #ff4d4d;
+    background: #fbbf24;
     color: #fff;
-    border-color: #ff4d4d;
+    border-color: #fbbf24;
     box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.12);
   }
   .btn.usage-primary-btn {
-    background: #ff4d4d !important;
-    border-color: #ff4d4d !important;
+    background: #fbbf24 !important;
+    border-color: #fbbf24 !important;
     color: #fff !important;
   }
   .usage-primary-btn:hover {
@@ -182,7 +182,7 @@ export const usageStylesPart1 = `
   .usage-primary-btn:disabled {
     background: rgba(255, 77, 77, 0.18);
     border-color: rgba(255, 77, 77, 0.3);
-    color: #ff4d4d;
+    color: #fbbf24;
     box-shadow: none;
     cursor: default;
     opacity: 1;
@@ -190,7 +190,7 @@ export const usageStylesPart1 = `
   .usage-primary-btn[disabled] {
     background: rgba(255, 77, 77, 0.18) !important;
     border-color: rgba(255, 77, 77, 0.3) !important;
-    color: #ff4d4d !important;
+    color: #fbbf24 !important;
     opacity: 1 !important;
   }
   .usage-secondary-btn {
