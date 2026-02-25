@@ -188,8 +188,8 @@ export const usageStylesPart1 = `
     opacity: 1;
   }
   .usage-primary-btn[disabled] {
-    background: rgba(255, 77, 77, 0.18) !important;
-    border-color: rgba(255, 77, 77, 0.3) !important;
+    background: rgba(251, 191, 36, 0.18) !important;
+    border-color: rgba(251, 191, 36, 0.3) !important;
     color: #fbbf24 !important;
     opacity: 1 !important;
   }
