@@ -180,8 +180,8 @@ export const usageStylesPart1 = `
     border-color: #e64545 !important;
   }
   .usage-primary-btn:disabled {
-    background: rgba(255, 77, 77, 0.18);
-    border-color: rgba(255, 77, 77, 0.3);
+    background: rgba(251, 191, 36, 0.18);
+    border-color: rgba(251, 191, 36, 0.3);
     color: #fbbf24;
     box-shadow: none;
     cursor: default;
