@@ -66,15 +66,15 @@ export function renderUsage(props: UsageProps) {
                 align-items: center;
                 gap: 6px;
                 padding: 4px 10px;
-                background: rgba(255, 77, 77, 0.1);
+                background: rgba(251, 191, 36, 0.1);
                 border-radius: 4px;
                 font-size: 12px;
-                color: #ff4d4d;
+                color: #fbbf24;
               ">
                 <span style="
                   width: 10px;
                   height: 10px;
-                  border: 2px solid #ff4d4d;
+                  border: 2px solid #fbbf24;
                   border-top-color: transparent;
                   border-radius: 50%;
                   animation: initial-spin 0.6s linear infinite;

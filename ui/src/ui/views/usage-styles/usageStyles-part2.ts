@@ -100,7 +100,7 @@ export const usageStylesPart2 = `
     color: var(--text);
   }
   .chart-toggle .toggle-btn.active {
-    background: #ff4d4d;
+    background: #fbbf24;
     color: white;
   }
   .chart-toggle.small .toggle-btn {
@@ -157,7 +157,7 @@ export const usageStylesPart2 = `
   .daily-bar {
     width: 100%;
     max-width: var(--bar-max-width, 32px);
-    background: #ff4d4d;
+    background: #fbbf24;
     border-radius: 3px 3px 0 0;
     min-height: 2px;
     transition: all 0.15s;
@@ -282,7 +282,7 @@ export const usageStylesPart2 = `
     background: #06b6d4;
   }
   .legend-dot.system {
-    background: #ff4d4d;
+    background: #fbbf24;
   }
   .legend-dot.skills {
     background: #8b5cf6;
@@ -431,23 +431,23 @@ export const usageStylesPart2 = `
     fill: var(--muted);
   }
   .timeseries-svg .ts-area {
-    fill: #ff4d4d;
+    fill: #fbbf24;
     fill-opacity: 0.1;
   }
   .timeseries-svg .ts-line {
     fill: none;
-    stroke: #ff4d4d;
+    stroke: #fbbf24;
     stroke-width: 2;
   }
   .timeseries-svg .ts-dot {
-    fill: #ff4d4d;
+    fill: #fbbf24;
     transition: r 0.15s, fill 0.15s;
   }
   .timeseries-svg .ts-dot:hover {
     r: 5;
   }
   .timeseries-svg .ts-bar {
-    fill: #ff4d4d;
+    fill: #fbbf24;
     transition: fill 0.15s;
   }
   .timeseries-svg .ts-bar:hover {
@@ -582,7 +582,7 @@ export const usageStylesPart2 = `
     transition: width 0.3s ease;
   }
   .context-segment.system {
-    background: #ff4d4d;
+    background: #fbbf24;
   }
   .context-segment.skills {
     background: #8b5cf6;
