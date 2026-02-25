@@ -1291,9 +1291,9 @@ Related: [Agent workspace](/concepts/agent-workspace), [Memory](/concepts/memory
 
 Everything lives under `$PROPEL_STATE_DIR` (default: `~/.propel`):
 
-| Path                                                            | Purpose                                                      |
-| --------------------------------------------------------------- | ------------------------------------------------------------ |
-| `$PROPEL_STATE_DIR/propel.json`                             | Main config (JSON5)                                          |
+| Path                                                          | Purpose                                                      |
+| ------------------------------------------------------------- | ------------------------------------------------------------ |
+| `$PROPEL_STATE_DIR/propel.json`                               | Main config (JSON5)                                          |
 | `$PROPEL_STATE_DIR/credentials/oauth.json`                    | Legacy OAuth import (copied into auth profiles on first use) |
 | `$PROPEL_STATE_DIR/agents/<agentId>/agent/auth-profiles.json` | Auth profiles (OAuth + API keys)                             |
 | `$PROPEL_STATE_DIR/agents/<agentId>/agent/auth.json`          | Runtime auth cache (managed automatically)                   |
@@ -2880,4 +2880,4 @@ You can add options like `debounce:2s cap:25 drop:summarize` for followup modes.
 
 ---
 
-Still stuck? Ask in [Discord](https://discord.com/invite/clawd) or open a [GitHub discussion](https://github.com/jw29247/propel/discussions).
+Still stuck? Ask in [Discord](https://discord.com/invite/propel) or open a [GitHub discussion](https://github.com/jw29247/propel/discussions).

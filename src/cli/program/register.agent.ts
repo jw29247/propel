@@ -154,7 +154,7 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.propel.ai/cli/agent
         `
 ${theme.heading("Examples:")}
 ${formatHelpExamples([
-  ['propel agents set-identity --agent main --name "Propel" --emoji "🦞"', "Set name + emoji."],
+  ['propel agents set-identity --agent main --name "Propel" --emoji "⚡"', "Set name + emoji."],
   ["propel agents set-identity --agent main --avatar avatars/propel.png", "Set avatar path."],
   [
     "propel agents set-identity --workspace ~/.propel/workspace --from-identity",

@@ -376,8 +376,8 @@ propel pairing list feishu
 
 ## Gateway management commands
 
-| Command                    | Description                   |
-| -------------------------- | ----------------------------- |
+| Command                  | Description                   |
+| ------------------------ | ----------------------------- |
 | `propel gateway status`  | Show gateway status           |
 | `propel gateway install` | Install/start gateway service |
 | `propel gateway stop`    | Stop gateway service          |
@@ -476,14 +476,14 @@ Use `bindings` to route Feishu DMs or groups to different agents.
     list: [
       { id: "main" },
       {
-        id: "clawd-fan",
-        workspace: "/home/user/clawd-fan",
-        agentDir: "/home/user/.propel/agents/clawd-fan/agent",
+        id: "propel-fan",
+        workspace: "/home/user/propel-fan",
+        agentDir: "/home/user/.propel/agents/propel-fan/agent",
       },
       {
-        id: "clawd-xi",
-        workspace: "/home/user/clawd-xi",
-        agentDir: "/home/user/.propel/agents/clawd-xi/agent",
+        id: "propel-xi",
+        workspace: "/home/user/propel-xi",
+        agentDir: "/home/user/.propel/agents/propel-xi/agent",
       },
     ],
   },
@@ -496,14 +496,14 @@ Use `bindings` to route Feishu DMs or groups to different agents.
       },
     },
     {
-      agentId: "clawd-fan",
+      agentId: "propel-fan",
       match: {
         channel: "feishu",
         peer: { kind: "direct", id: "ou_yyy" },
       },
     },
     {
-      agentId: "clawd-xi",
+      agentId: "propel-xi",
       match: {
         channel: "feishu",
         peer: { kind: "group", id: "oc_zzz" },

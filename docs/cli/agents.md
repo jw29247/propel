@@ -51,7 +51,7 @@ propel agents set-identity --workspace ~/.propel/workspace --from-identity
 Override fields explicitly:
 
 ```bash
-propel agents set-identity --agent main --name "Propel" --emoji "🦞" --avatar avatars/propel.png
+propel agents set-identity --agent main --name "Propel" --emoji "⚡" --avatar avatars/propel.png
 ```
 
 Config sample:
@@ -65,7 +65,7 @@ Config sample:
         identity: {
           name: "Propel",
           theme: "space lobster",
-          emoji: "🦞",
+          emoji: "⚡",
           avatar: "avatars/propel.png",
         },
       },
