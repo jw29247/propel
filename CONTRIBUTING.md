@@ -95,7 +95,7 @@ We are currently prioritizing:
 
 - **Stability**: Fixing edge cases in channel connections (WhatsApp/Telegram).
 - **UX**: Improving the onboarding wizard and error messages.
-- **Skills**: For skill contributions, head to [ClawHub](https://clawhub.ai/) — the community hub for Propel skills.
+- **Skills**: Skills are managed within this repository.
 - **Performance**: Optimizing token usage and compaction logic.
 
 Check the [GitHub Issues](https://github.com/jw29247/propel/issues) for "good first issue" labels!
@@ -107,7 +107,7 @@ If you're an experienced contributor who wants to help shape Propel's direction 
 
 Being a maintainer is a responsibility, not an honorary title. We expect active, consistent involvement — triaging issues, reviewing PRs, and helping move the project forward.
 
-Still interested? Email contributing@propel.ai with:
+Still interested? Email jacob@harbourcontent.co with:
 
 - Links to your PRs on Propel (if you don't have any, start there first)
 - Links to open source projects you maintain or actively contribute to
@@ -128,10 +128,9 @@ We take security reports seriously. Report vulnerabilities directly to the repos
 - **macOS desktop app** — [propel/propel](https://github.com/jw29247/propel) (apps/macos)
 - **iOS app** — [propel/propel](https://github.com/jw29247/propel) (apps/ios)
 - **Android app** — [propel/propel](https://github.com/jw29247/propel) (apps/android)
-- **ClawHub** — [propel/clawhub](https://github.com/propel/clawhub)
 - **Trust and threat model** — [propel/trust](https://github.com/propel/trust)
 
-For issues that don't fit a specific repo, or if you're unsure, email **security@propel.ai** and we'll route it.
+For issues that don't fit a specific repo, or if you're unsure, email **jacob@harbourcontent.co** and we'll route it.
 
 ### Required in Reports
 
