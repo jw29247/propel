@@ -29,7 +29,7 @@ Save to `~/.propel/propel.json` and you can DM the bot from that number.
 ```json5
 {
   identity: {
-    name: "Clawd",
+    name: "Propel",
     theme: "helpful assistant",
     emoji: "⚡",
   },

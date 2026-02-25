@@ -70,16 +70,16 @@ Running on a VPS? See [Hetzner (Docker VPS)](/install/hetzner).
 For easier day-to-day Docker management, install `ClawDock`:
 
 ```bash
-mkdir -p ~/.clawdock && curl -sL https://raw.githubusercontent.com/propel/propel/main/scripts/shell-helpers/clawdock-helpers.sh -o ~/.clawdock/clawdock-helpers.sh
+mkdir -p ~/.propeldock && curl -sL https://raw.githubusercontent.com/propel/propel/main/scripts/shell-helpers/propeldock-helpers.sh -o ~/.propeldock/propeldock-helpers.sh
 ```
 
 **Add to your shell config (zsh):**
 
 ```bash
-echo 'source ~/.clawdock/clawdock-helpers.sh' >> ~/.zshrc && source ~/.zshrc
+echo 'source ~/.propeldock/propeldock-helpers.sh' >> ~/.zshrc && source ~/.zshrc
 ```
 
-Then use `clawdock-start`, `clawdock-stop`, `clawdock-dashboard`, etc. Run `clawdock-help` for all commands.
+Then use `propeldock-start`, `propeldock-stop`, `propeldock-dashboard`, etc. Run `propeldock-help` for all commands.
 
 See [`ClawDock` Helper README](https://github.com/jw29247/propel/blob/main/scripts/shell-helpers/README.md) for details.
 

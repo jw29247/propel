@@ -12,7 +12,7 @@ read_when:
 Real projects from the community. See what people are building with Propel.
 
 <Info>
-**Want to be featured?** Share your project in [#showcase on Discord](https://discord.gg/clawd) or [tag @propel on X](https://x.com/propel).
+**Want to be featured?** Share your project in [#showcase on Discord](https://discord.gg/propel) or [tag @propel on X](https://x.com/propel).
 </Info>
 
 ## 🎥 Propel in Action
@@ -191,7 +191,7 @@ Personal AI health assistant integrating Oura ring data with calendar, appointme
 <Card title="Kev's Dream Team (14+ Agents)" icon="robot" href="https://github.com/adam91holt/orchestrated-ai-articles">
   **@adam91holt** • `multi-agent` `orchestration` `architecture` `manifesto`
 
-14+ agents under one gateway with Opus 4.5 orchestrator delegating to Codex workers. Comprehensive [technical write-up](https://github.com/adam91holt/orchestrated-ai-articles) covering the Dream Team roster, model selection, sandboxing, webhooks, heartbeats, and delegation flows. [Clawdspace](https://github.com/adam91holt/clawdspace) for agent sandboxing. [Blog post](https://adams-ai-journey.ghost.io/2026-the-year-of-the-orchestrator/).
+14+ agents under one gateway with Opus 4.5 orchestrator delegating to Codex workers. Comprehensive [technical write-up](https://github.com/adam91holt/orchestrated-ai-articles) covering the Dream Team roster, model selection, sandboxing, webhooks, heartbeats, and delegation flows. [Propelspace](https://github.com/adam91holt/propelspace) for agent sandboxing. [Blog post](https://adams-ai-journey.ghost.io/2026-the-year-of-the-orchestrator/).
 </Card>
 
 <Card title="Linear CLI" icon="terminal" href="https://github.com/Finesssee/linear-cli">
@@ -322,7 +322,7 @@ Watches company Slack channel, responds helpfully, and forwards notifications to
 
 <CardGroup cols={2}>
 
-<Card title="Clawdia Phone Bridge" icon="phone" href="https://github.com/alejandroOPI/clawdia-bridge">
+<Card title="Propelia Phone Bridge" icon="phone" href="https://github.com/alejandroOPI/propelia-bridge">
   **@alejandroOPI** • `voice` `vapi` `bridge`
   
   Vapi voice assistant ↔ Propel HTTP bridge. Near real-time phone calls with your agent.
@@ -408,7 +408,7 @@ Have something to share? We'd love to feature it!
 
 <Steps>
   <Step title="Share It">
-    Post in [#showcase on Discord](https://discord.gg/clawd) or [tweet @propel](https://x.com/propel)
+    Post in [#showcase on Discord](https://discord.gg/propel) or [tweet @propel](https://x.com/propel)
   </Step>
   <Step title="Include Details">
     Tell us what it does, link to the repo/demo, share a screenshot if you have one
