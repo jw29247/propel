@@ -5,7 +5,7 @@ read_when:
 title: "Propel"
 ---
 
-# Propel 🦞
+# Propel ⚡
 
 <p align="center">
     <img

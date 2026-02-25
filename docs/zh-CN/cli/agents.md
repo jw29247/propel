@@ -58,7 +58,7 @@ propel agents set-identity --workspace ~/.propel/workspace --from-identity
 显式覆盖字段：
 
 ```bash
-propel agents set-identity --agent main --name "Propel" --emoji "🦞" --avatar avatars/propel.png
+propel agents set-identity --agent main --name "Propel" --emoji "⚡" --avatar avatars/propel.png
 ```
 
 配置示例：
@@ -72,7 +72,7 @@ propel agents set-identity --agent main --name "Propel" --emoji "🦞" --avatar 
         identity: {
           name: "Propel",
           theme: "space lobster",
-          emoji: "🦞",
+          emoji: "⚡",
           avatar: "avatars/propel.png",
         },
       },

@@ -1,6 +1,6 @@
 # Contributing to Propel
 
-Welcome to the lobster tank! 🦞
+Welcome to Propel! ⚡
 
 ## Quick Links
 

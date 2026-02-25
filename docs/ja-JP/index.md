@@ -12,7 +12,7 @@ x-i18n:
   workflow: 15
 ---
 
-# Propel 🦞
+# Propel ⚡
 
 <p align="center">
     <img
