@@ -54,7 +54,7 @@ export const usageStylesPart1 = `
     align-items: center;
     gap: 6px;
     padding: 4px 10px;
-    background: rgba(255, 77, 77, 0.1);
+    background: rgba(251, 191, 36, 0.1);
     border-radius: 4px;
     font-size: 12px;
     color: #fbbf24;
