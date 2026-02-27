@@ -4,18 +4,11 @@ If you believe you've found a security issue in Propel, please report it private
 
 ## Reporting
 
-Report vulnerabilities directly to the repository where the issue lives:
+Report vulnerabilities via GitHub Security Advisories on the relevant repository:
 
-- **Core CLI and gateway** — [propel/propel](https://github.com/jw29247/propel)
-- **macOS desktop app** — [propel/propel](https://github.com/jw29247/propel) (apps/macos)
-- **iOS app** — [propel/propel](https://github.com/jw29247/propel) (apps/ios)
-- **Android app** — [propel/propel](https://github.com/jw29247/propel) (apps/android)
-- **ClawHub** — [propel/clawhub](https://github.com/propel/clawhub)
-- **Trust and threat model** — [propel/trust](https://github.com/propel/trust)
+- **Core platform (CLI + gateway)** — [jw29247/propel](https://github.com/jw29247/propel)
 
-For issues that don't fit a specific repo, or if you're unsure, email **security@propel.ai** and we'll route it.
-
-For full reporting instructions see our [Trust page](https://trust.propel.ai).
+For issues that don't fit a specific repo, or if you're unsure, email **jacob@harbourcontent.co**.
 
 ### Required in Reports
 
@@ -30,14 +23,13 @@ For full reporting instructions see our [Trust page](https://trust.propel.ai).
 
 Reports without reproduction steps, demonstrated impact, and remediation advice will be deprioritized. Given the volume of AI-generated scanner findings, we must ensure we're receiving vetted reports from researchers who understand the issues.
 
-## Security & Trust
+## Security Contact
 
-**Jamieson O'Reilly** ([@theonejvo](https://twitter.com/theonejvo)) is Security & Trust at Propel. Jamieson is the founder of [Dvuln](https://dvuln.com) and brings extensive experience in offensive security, penetration testing, and security program development.
+For security concerns, contact **Jacob White** at jacob@harbourcontent.co.
 
 ## Bug Bounties
 
-Propel is a labor of love. There is no bug bounty program and no budget for paid reports. Please still disclose responsibly so we can fix issues quickly.
-The best way to help the project right now is by sending PRs.
+There is no formal bug bounty program at this time. Please still disclose responsibly so we can fix issues quickly.
 
 ## Maintainers: GHSA Updates via CLI
 
